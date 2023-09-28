@@ -9,7 +9,7 @@ export const SideMenu: React.FC = () => {
     <Menu
       mode={'vertical'}
       items={sideMenuList.map((m) => ({
-        labels: m.title,
+        label: m.title,
         icon: <GifOutlined />,
         key: m.title,
         children: m.subMenu.map((sm) => ({
@@ -23,6 +23,7 @@ export const SideMenu: React.FC = () => {
           })),
         })),
       }))}
-      className={styles['side-menu']}></Menu>
+      className={styles['side-menu']}
+    />
   );
 };
