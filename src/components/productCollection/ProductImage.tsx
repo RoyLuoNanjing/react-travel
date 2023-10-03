@@ -25,7 +25,9 @@ export const ProductImage: React.FC<PropsType> = ({
       <div>
         {/* 避免标题太长，故截取前25个字符 */}
         <Typography.Text type="secondary">{title.slice(0, 25)}</Typography.Text>
-        <Typography.Text type="danger">¥ {price}</Typography.Text>
+        <Typography.Text type="danger" strong>
+          ¥ {price}起
+        </Typography.Text>
       </div>
     </>
   );
