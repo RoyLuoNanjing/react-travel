@@ -1,11 +1,13 @@
-import React from 'react';
-import { Layout, Typography } from 'antd';
+import React from "react";
+import { Layout, Typography } from "antd";
+import { useTranslation } from "react-i18next";
 
 export const Footer: React.FC = () => {
+  const { t } = useTranslation();
   return (
     <Layout.Footer>
-      <Typography.Title level={3} style={{ textAlign: 'center' }}>
-        Copyright © 1995–2023 Roy Luo™. All rights reserved.
+      <Typography.Title level={3} style={{ textAlign: "center" }}>
+        {t("footer.detail")}
       </Typography.Title>
     </Layout.Footer>
   );
