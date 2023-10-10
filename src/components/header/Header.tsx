@@ -1,52 +1,83 @@
 import React from "react";
-import logo from "../../assets/logo.svg";
 import styles from "./Header.module.css";
+import logo from "../../assets/logo.svg";
 import { Layout, Typography, Input, Menu, Button, Dropdown } from "antd";
 import { GlobalOutlined } from "@ant-design/icons";
 import { useParams, useLocation, useNavigate } from "react-router-dom";
+import { useSelector } from "../../redux/hooks";
+import { RootState } from "../../redux/store";
+import { useDispatch } from "react-redux";
+import { Dispatch } from "redux";
+import {
+  LanguageActionTypes,
+  addLanguageActionCreator,
+  changeLanguageActionCreator,
+} from "../../redux/language/languageActions";
+import { useTranslation } from "react-i18next";
 
 export const Header: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const params = useParams();
+  const language = useSelector((state) => state.language);
+  const languageList = useSelector((state) => state.languageList);
+  const dispatch = useDispatch(); //不做类型处理，直接使用any
+
+  // const dispatch = useDispatch<Dispatch<LanguageActionTypes>>();
+  const { t } = useTranslation();
+
+  const menuClickHandler = (e) => {
+    console.log(e);
+    if (e.key === "new") {
+      // 处理新语言添加action
+      dispatch(addLanguageActionCreator("新语言", "new_lang"));
+    } else {
+      dispatch(changeLanguageActionCreator(e.key));
+    }
+  };
 
   return (
     <div className={styles["app-header"]}>
       {/* top-header */}
       <div className={styles["top-header"]}>
         <div className={styles.inner}>
-          <Typography.Text className={styles["title-header"]}>
-            Make travel happier
-          </Typography.Text>
+          <Typography.Text>{t("header.slogan")}</Typography.Text>
           <Dropdown.Button
             style={{ marginLeft: 15 }}
             overlay={
               <Menu
+                onClick={menuClickHandler}
                 items={[
-                  { key: "1", label: "中文" },
-                  { key: "2", label: "English" },
+                  ...languageList.map((l) => {
+                    return { key: l.code, label: l.name };
+                  }),
+                  { key: "new", label: t("header.add_new_language") },
                 ]}
               />
             }
             icon={<GlobalOutlined />}
           >
-            Languages
+            {language === "zh" ? "中文" : "English"}
           </Dropdown.Button>
           <Button.Group className={styles["button-group"]}>
-            <Button onClick={() => navigate("/register")}>注册</Button>
-            <Button onClick={() => navigate("/signin")}>登录</Button>
+            <Button onClick={() => navigate("/register")}>
+              {t("header.register")}
+            </Button>
+            <Button onClick={() => navigate("/signin")}>
+              {t("header.signin")}
+            </Button>
           </Button.Group>
         </div>
       </div>
       <Layout.Header className={styles["main-header"]}>
         <span onClick={() => navigate("/")}>
-          <img src={logo} alt="" className={styles["App-logo"]} />
-          <Typography.Title className={styles["title"]}>
-            Roy Travel Agency
+          <img src={logo} alt="logo" className={styles["App-logo"]} />
+          <Typography.Title level={3} className={styles.title}>
+            {t("header.title")}
           </Typography.Title>
         </span>
         <Input.Search
-          placeholder={"please type in the destination, theme or keywords"}
+          placeholder={"请输入旅游目的地、主题、或关键字"}
           className={styles["search-input"]}
         />
       </Layout.Header>
@@ -54,18 +85,24 @@ export const Header: React.FC = () => {
         mode={"horizontal"}
         className={styles["main-menu"]}
         items={[
-          { key: 1, label: "Main" },
-          { key: 2, label: "Flight" },
-          { key: 3, label: "Hotel" },
-          { key: 4, label: "Flight + Hotel" },
-          { key: 5, label: "Car Rentals" },
-          { key: 6, label: "Cruise" },
-          { key: 7, label: "Attractions" },
-          { key: 8, label: "Aiport Taxis" },
-          { key: 9, label: "Special" },
-          { key: 10, label: "Sales" },
+          { key: "1", label: t("header.home_page") },
+          { key: "2", label: t("header.weekend") },
+          { key: "3", label: t("header.group") },
+          { key: "4", label: t("header.backpack") },
+          { key: "5", label: t("header.private") },
+          { key: "6", label: t("header.cruise") },
+          { key: "7", label: t("header.hotel") },
+          { key: "8", label: t("header.local") },
+          { key: "9", label: t("header.theme") },
+          { key: "10", label: t("header.custom") },
+          { key: "11", label: t("header.study") },
+          { key: "12", label: t("header.visa") },
+          { key: "13", label: t("header.enterprise") },
+          { key: "14", label: t("header.high_end") },
+          { key: "15", label: t("header.outdoor") },
+          { key: "16", label: t("header.insurance") },
         ]}
-      ></Menu>
+      />
     </div>
   );
 };
