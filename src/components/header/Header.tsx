@@ -19,8 +19,8 @@ export const Header: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const params = useParams();
-  const language = useSelector((state) => state.language);
-  const languageList = useSelector((state) => state.languageList);
+  const language = useSelector((state) => state.language.language);
+  const languageList = useSelector((state) => state.language.languageList);
   const dispatch = useDispatch(); //不做类型处理，直接使用any
 
   // const dispatch = useDispatch<Dispatch<LanguageActionTypes>>();

@@ -23,8 +23,8 @@ class HeaderComponent extends React.Component<
     super(props);
     const storeState = store.getState();
     this.state = {
-      language: storeState.language,
-      languageList: storeState.languageList,
+      language: storeState.language.language,
+      languageList: storeState.language.languageList,
     };
     store.subscribe(this.handleStoreChange);
   }
@@ -32,8 +32,8 @@ class HeaderComponent extends React.Component<
   handleStoreChange = () => {
     const storeState = store.getState();
     this.setState({
-      language: storeState.language,
-      languageList: storeState.languageList,
+      language: storeState.language.language,
+      languageList: storeState.language.languageList,
     });
   };
 
