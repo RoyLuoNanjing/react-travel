@@ -6,9 +6,9 @@ import {
   SignInPage,
   RegisterPage,
   DetailPage,
-  SearchPage,
+  //SearchPage,
 } from "./pages";
-
+import { SearchPage } from "./pages/search";
 function App() {
   return (
     <div className={styles.App}>
@@ -18,7 +18,7 @@ function App() {
           <Route path="/signin" element={<SignInPage />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/detail/:touristRouteId" element={<DetailPage />} />
-          <Route path="/search/:key" element={<SearchPage />} />
+          <Route path="/search/:keywords" element={<SearchPage />} />
           <Route path="*" element={<h1>404 not found 页面去火星了</h1>} />
         </Routes>
       </BrowserRouter>
