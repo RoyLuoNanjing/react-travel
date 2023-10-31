@@ -29,6 +29,7 @@ export const searchProduct = createAsyncThunk(
     if (paramaters.keywords) {
       url += `&keyword=${paramaters.keywords}`;
     }
+    console.log(url);
 
     const response = await axios.get(url);
     return {
