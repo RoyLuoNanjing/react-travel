@@ -38,6 +38,7 @@ export const DetailPage: React.FC = () => {
       dispatch(getProductDetail(touristRouteId));
     }
   }, []);
+
   if (loading) {
     return (
       <Spin

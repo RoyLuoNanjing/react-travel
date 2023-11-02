@@ -33,9 +33,6 @@ export const Header: React.FC = () => {
 
   const shoppingCartItems = useSelector((s) => s.shoppingCart.items);
   const shoppingCartLoading = useSelector((s) => s.shoppingCart.loading);
-  useEffect(() => {
-    console.log("shoppingCartItems:", shoppingCartItems);
-  }, [shoppingCartItems]);
 
   useEffect(() => {
     if (jwt) {
