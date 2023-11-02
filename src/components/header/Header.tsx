@@ -5,11 +5,9 @@ import { Layout, Typography, Input, Menu, Button, Dropdown } from "antd";
 import { GlobalOutlined } from "@ant-design/icons";
 import { useParams, useLocation, useNavigate } from "react-router-dom";
 import { useSelector } from "../../redux/hooks";
-import { RootState } from "../../redux/store";
 import { useDispatch } from "react-redux";
 import { Dispatch } from "redux";
 import {
-  LanguageActionTypes,
   addLanguageActionCreator,
   changeLanguageActionCreator,
 } from "../../redux/language/languageActions";
@@ -23,8 +21,6 @@ interface JwtPayload extends DefaultJwtPayload {
 
 export const Header: React.FC = () => {
   const navigate = useNavigate();
-  const location = useLocation();
-  const params = useParams();
   const language = useSelector((state) => state.language.language);
   const languageList = useSelector((state) => state.language.languageList);
   const dispatch = useDispatch(); //不做类型处理，直接使用any
@@ -34,6 +30,12 @@ export const Header: React.FC = () => {
 
   const jwt = useSelector((s) => s.user.token);
   const [username, setUsername] = useState("");
+
+  const shoppingCartItems = useSelector((s) => s.shoppingCart.items);
+  const shoppingCartLoading = useSelector((s) => s.shoppingCart.loading);
+  useEffect(() => {
+    console.log("shoppingCartItems:", shoppingCartItems);
+  }, [shoppingCartItems]);
 
   useEffect(() => {
     if (jwt) {
@@ -88,9 +90,11 @@ export const Header: React.FC = () => {
                 <Typography.Text strong>{username}</Typography.Text>
               </span> */}
               <Button.Group className={styles["button-group"]}>
-                <Button onClick={() => navigate("./shoppingCart")}>
-                  {" "}
-                  {t("header.shoppingCart")}
+                <Button
+                  loading={shoppingCartLoading}
+                  onClick={() => navigate("/shoppingCart")}
+                >
+                  {t("header.shoppingCart")}({shoppingCartItems.length})
                 </Button>
                 <Button onClick={onLogout}> {t("header.signOut")}</Button>
               </Button.Group>

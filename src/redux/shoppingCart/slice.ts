@@ -42,7 +42,7 @@ export const addShoppingCartItem = createAsyncThunk(
         },
       }
     );
-    return data.shoppingCartItems;
+    return data;
   }
 );
 
@@ -67,9 +67,7 @@ export const shoppingCartSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: {
-    /* get */
     [getShoppingCart.pending.type]: (state) => {
-      //return { ...state, loading: true };
       state.loading = true;
     },
     [getShoppingCart.fulfilled.type]: (state, action) => {
@@ -81,18 +79,14 @@ export const shoppingCartSlice = createSlice({
       state,
       action: PayloadAction<string | null>
     ) => {
-      //   const ddd = action.payload;
       state.loading = false;
       state.error = action.payload;
     },
-
-    /* Add */
     [addShoppingCartItem.pending.type]: (state) => {
-      //return { ...state, loading: true };
       state.loading = true;
     },
     [addShoppingCartItem.fulfilled.type]: (state, action) => {
-      state.items = action.payload;
+      state.items = action.payload.shoppingCartItems;
       state.loading = false;
       state.error = null;
     },
@@ -100,14 +94,10 @@ export const shoppingCartSlice = createSlice({
       state,
       action: PayloadAction<string | null>
     ) => {
-      //   const ddd = action.payload;
       state.loading = false;
       state.error = action.payload;
     },
-
-    /* Clear */
     [clearShoppingCartItem.pending.type]: (state) => {
-      //return { ...state, loading: true };
       state.loading = true;
     },
     [clearShoppingCartItem.fulfilled.type]: (state) => {
@@ -119,7 +109,6 @@ export const shoppingCartSlice = createSlice({
       state,
       action: PayloadAction<string | null>
     ) => {
-      //   const ddd = action.payload;
       state.loading = false;
       state.error = action.payload;
     },

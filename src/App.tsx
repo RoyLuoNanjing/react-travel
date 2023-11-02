@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styles from "./App.module.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import {
@@ -10,15 +10,24 @@ import {
   ShoppingCartPage,
 } from "./pages";
 import { Navigate } from "react-router-dom";
-import { useSelector } from "./redux/hooks";
+import { useSelector, useAppDispatch } from "./redux/hooks";
+import { getShoppingCart } from "./redux/shoppingCart/slice";
 
-//私有路由的请求
 const PrivateRoute = ({ children }) => {
-  const jwt = useSelector((state) => state.user.token);
-  return jwt ? children : <Navigate to="/signin" />;
+  const jwt = useSelector((s) => s.user.token);
+  return jwt ? children : <Navigate to="/signIn" />;
 };
 
 function App() {
+  const jwt = useSelector((s) => s.user.token);
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    if (jwt) {
+      dispatch(getShoppingCart(jwt));
+    }
+  }, [jwt]);
+
   return (
     <div className={styles.App}>
       <BrowserRouter>
@@ -27,7 +36,6 @@ function App() {
           <Route path="/signin" element={<SignInPage />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/detail/:touristRouteId" element={<DetailPage />} />
-
           <Route path="/search/:keywords" element={<SearchPage />} />
           <Route
             path="/shoppingCart"
