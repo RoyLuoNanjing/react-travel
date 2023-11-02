@@ -6,9 +6,18 @@ import {
   SignInPage,
   RegisterPage,
   DetailPage,
-  //SearchPage,
+  SearchPage,
+  ShoppingCartPage,
 } from "./pages";
-import { SearchPage } from "./pages/search";
+import { Navigate } from "react-router-dom";
+import { useSelector } from "./redux/hooks";
+
+//私有路由的请求
+const PrivateRoute = ({ children }) => {
+  const jwt = useSelector((state) => state.user.token);
+  return jwt ? children : <Navigate to="/signin" />;
+};
+
 function App() {
   return (
     <div className={styles.App}>
@@ -18,7 +27,16 @@ function App() {
           <Route path="/signin" element={<SignInPage />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/detail/:touristRouteId" element={<DetailPage />} />
+
           <Route path="/search/:keywords" element={<SearchPage />} />
+          <Route
+            path="/shoppingCart"
+            element={
+              <PrivateRoute>
+                <ShoppingCartPage />
+              </PrivateRoute>
+            }
+          />
           <Route path="*" element={<h1>404 not found 页面去火星了</h1>} />
         </Routes>
       </BrowserRouter>
