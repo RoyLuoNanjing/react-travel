@@ -9,6 +9,7 @@ import { productSearchSlice } from "./productSearch/slice";
 import { userSlice } from "./user/slice";
 import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
+import { shoppingCartSlice } from "./shoppingCart/slice";
 /* token持久化配置信息 */
 const persistConfig = {
   key: "root",
@@ -23,6 +24,7 @@ const rootReducer = combineReducers({
   productDetail: productDetailSlice.reducer,
   productSearch: productSearchSlice.reducer,
   user: userSlice.reducer,
+  shoppingCart: shoppingCartSlice.reducer,
 });
 
 //const store = createStore(rootReducer, applyMiddleware(thunk, actionLog));
